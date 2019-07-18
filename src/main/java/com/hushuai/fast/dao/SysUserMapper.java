@@ -1,5 +1,9 @@
 package com.hushuai.fast.dao;
 
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+
 import com.hushuai.fast.dto.SysUser;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -16,4 +20,7 @@ public interface SysUserMapper {
     int updateByPrimaryKeySelective(SysUser record);
 
     int updateByPrimaryKey(SysUser record);
+
+    List<SysUser> findByUsername(@Param("username") String username);
+
 }

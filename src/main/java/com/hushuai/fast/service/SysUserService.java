@@ -4,6 +4,9 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import com.hushuai.fast.dto.SysUser;
 import com.hushuai.fast.dao.SysUserMapper;
+
+import java.util.List;
+
 @Service
 public class SysUserService{
 
@@ -30,7 +33,7 @@ public class SysUserService{
         return sysUserMapper.selectByPrimaryKey(id);
     }
 
-    
+
     public int updateByPrimaryKeySelective(SysUser record) {
         return sysUserMapper.updateByPrimaryKeySelective(record);
     }
@@ -40,4 +43,12 @@ public class SysUserService{
         return sysUserMapper.updateByPrimaryKey(record);
     }
 
+    public SysUser findByUsername(String username){
+        List<SysUser> userList = sysUserMapper.findByUsername(username);
+        if (userList == null) {
+            return null;
+        }else{
+            return userList.get(0);
+        }
+    }
 }
