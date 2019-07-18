@@ -1,8 +1,11 @@
 package com.hushuai.fast.controller;
 
+import com.hushuai.fast.dto.SysUser;
+import com.hushuai.fast.service.SysUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,6 +25,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Api(value = "UserController关于用户的相关接口")
 public class UserController {
 
+    @Autowired
+    private SysUserService sysUserService;
+
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     @ApiOperation(value="根据用户名和密码进行登陆", notes="登陆成功/密码错误")
     @ResponseBody
@@ -34,6 +40,7 @@ public class UserController {
     @ApiOperation(value="根据用户编号获取用户姓名", notes="test: 仅1和2有正确返回")
     @ApiImplicitParam(paramType="query", name = "userNumber", value = "用户编号", required = true, dataType = "Integer")
     public String getUserName(@RequestParam Integer userNumber){
+        SysUser sysUser = sysUserService.selectByPrimaryKey(1);
         if(userNumber == 1){
             return "张三丰";
         }

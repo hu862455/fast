@@ -1,7 +1,12 @@
 package com.hushuai.fast.controller;
 
+import com.hushuai.fast.constants.ResultConstant;
+import com.hushuai.fast.vo.ResultVo;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.HashMap;
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,8 +25,10 @@ public class IndexController {
         return "404";
     }
 
-    @RequestMapping(value = "login")
-    public String loginPage(){
+    @RequestMapping(value = "loginPage")
+    public String loginPage(String error ,Model model){
+        model.addAttribute("");
         return "login";
     }
+
 }
