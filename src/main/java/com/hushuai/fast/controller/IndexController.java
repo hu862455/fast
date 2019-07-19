@@ -53,7 +53,7 @@ public class IndexController {
 
     @RequestMapping("/admin")
     @ResponseBody
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasPermission('/user','ROLE_USER')")
     public String printAdmin() {
         return "如果你看见这句话，说明你有ROLE_ADMIN角色";
     }

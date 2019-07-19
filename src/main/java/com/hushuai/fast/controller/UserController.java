@@ -6,11 +6,19 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.session.SessionInformation;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -24,6 +32,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/user")
 @Api(value = "UserController关于用户的相关接口")
 public class UserController {
+
+    @Autowired
+    private SessionRegistry sessionRegistry;
 
     @Autowired
     private SysUserService sysUserService;
@@ -52,4 +63,36 @@ public class UserController {
         }
     }
 
+    @RequestMapping("/login/invalid")
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ResponseBody
+    public String invalid() {
+        return "Session 已过期，请重新登录";
+    }
+
+
+    @GetMapping("/kick")
+    @ResponseBody
+    public String removeUserSessionByUsername(@RequestParam String username) {
+        int count = 0;
+
+        // 获取session中所有的用户信息
+        List<Object> users = sessionRegistry.getAllPrincipals();
+        for (Object principal : users) {
+            if (principal instanceof User) {
+                String principalName = ((User)principal).getUsername();
+                if (principalName.equals(username)) {
+                    // 参数二：是否包含过期的Session
+                    List<SessionInformation> sessionsInfo = sessionRegistry.getAllSessions(principal, false);
+                    if (!sessionsInfo.isEmpty()) {
+                        for (SessionInformation sessionInformation : sessionsInfo) {
+                            sessionInformation.expireNow();
+                            count++;
+                        }
+                    }
+                }
+            }
+        }
+        return "操作成功，清理session共" + count + "个";
+    }
 }

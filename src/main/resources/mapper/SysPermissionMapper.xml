@@ -94,9 +94,9 @@
   </update>
   <select id="findAllPermissionByUid" resultMap="BaseResultMap" parameterType="int">
     select
-    <include refid="Base_Column_List" />
+    p.*
     from sys_user u
-           LEFT JOIN sys_user_role sur on u.id= sur.uid
+           LEFT JOIN sys_user_role sur on u.`id`= sur.uid
            LEFT JOIN sys_role r on sur.rid=r.id
            LEFT JOIN sys_role_permission srp on srp.rid=r.id
            LEFT JOIN sys_permission p on p.id =srp.pid

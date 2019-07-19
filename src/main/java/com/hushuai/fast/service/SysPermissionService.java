@@ -45,4 +45,7 @@ public class SysPermissionService{
 		 return sysPermissionMapper.findALL();
 	}
 
+    public List<SysPermission> findAllPermissionByUid(Integer id) {
+        return sysPermissionMapper.findAllPermissionByUid(id);
+    }
 }

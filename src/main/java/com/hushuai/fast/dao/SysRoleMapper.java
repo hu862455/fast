@@ -1,4 +1,6 @@
 package com.hushuai.fast.dao;
+import org.apache.ibatis.annotations.Param;
+import java.util.List;
 
 import com.hushuai.fast.dto.SysRole;
 import org.apache.ibatis.annotations.Mapper;
@@ -16,4 +18,7 @@ public interface SysRoleMapper {
     int updateByPrimaryKeySelective(SysRole record);
 
     int updateByPrimaryKey(SysRole record);
+
+    List<SysRole> selectByRolename(@Param("rolename")String rolename);
+
 }
