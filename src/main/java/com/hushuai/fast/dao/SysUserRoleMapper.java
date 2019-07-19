@@ -1,4 +1,6 @@
 package com.hushuai.fast.dao;
+import org.apache.ibatis.annotations.Param;
+import java.util.List;
 
 import com.hushuai.fast.dto.SysUserRole;
 import org.apache.ibatis.annotations.Mapper;
@@ -16,4 +18,10 @@ public interface SysUserRoleMapper {
     int updateByPrimaryKeySelective(SysUserRole record);
 
     int updateByPrimaryKey(SysUserRole record);
+
+    List<SysUserRole> selectByUid(@Param("uid")Integer uid);
+
+
+
+
 }

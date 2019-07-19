@@ -1,4 +1,5 @@
 package com.hushuai.fast.service;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
@@ -39,5 +40,12 @@ public class SysUserRoleService{
     public int updateByPrimaryKey(SysUserRole record) {
         return sysUserRoleMapper.updateByPrimaryKey(record);
     }
+
+	public List<SysUserRole> selectByUid(Integer uid){
+		 return sysUserRoleMapper.selectByUid(uid);
+	}
+
+
+
 
 }

@@ -1,4 +1,5 @@
 package com.hushuai.fast.service;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
@@ -39,5 +40,9 @@ public class SysPermissionService{
     public int updateByPrimaryKey(SysPermission record) {
         return sysPermissionMapper.updateByPrimaryKey(record);
     }
+
+	public List<SysPermission> findALL(){
+		 return sysPermissionMapper.findALL();
+	}
 
 }
