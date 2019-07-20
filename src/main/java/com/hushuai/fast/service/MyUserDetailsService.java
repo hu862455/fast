@@ -59,7 +59,6 @@ public class MyUserDetailsService implements UserDetailsService {
             List<SysUserRole> sysUserRoles = sysUserRoleService.selectByUid(sysUser.getId());
             List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
             for (SysUserRole sysUserRole : sysUserRoles) {
-                //codeTODO 2019/7/19 11:02 : 当前是将对应用户的角色名字存储进去 后期应该添加权限
                 SysRole sysRole = sysRoleService.selectByPrimaryKey(sysUserRole.getRid());
                 grantedAuthorities.add(new SimpleGrantedAuthority(sysRole.getRolename()));
             }

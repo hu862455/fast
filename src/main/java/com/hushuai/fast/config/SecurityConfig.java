@@ -46,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .formLogin().loginPage("/index/loginPage").loginProcessingUrl("/index/loginPage/form")
                 .failureUrl("/index/loginPage?error")
-                .defaultSuccessUrl("/index/home").permitAll()
+                .defaultSuccessUrl("/index/index").permitAll()
                 //表单登录，permitAll()
                 // 表示这个不需要验证 登录页面，登录失败页面
                 .and()

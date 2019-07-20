@@ -51,6 +51,18 @@ public class IndexController {
         return "home.html";
     }
 
+    @RequestMapping("/createMemberPage")
+    public String createMemberPage() {
+        return "/member/createmember.html";
+    }
+
+    @RequestMapping("/index")
+    public String showIndex() {
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        logger.info("当前登陆用户：" + name);
+        return "index.html";
+    }
+
     @RequestMapping("/admin")
     @ResponseBody
     @PreAuthorize("hasPermission('/user','ROLE_USER')")
