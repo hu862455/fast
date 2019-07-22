@@ -3,12 +3,18 @@ package com.hushuai.fast.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONPObject;
 import com.hushuai.fast.dto.MemberLevel;
 import com.hushuai.fast.service.MemberLevelService;
 import com.hushuai.fast.vo.MemberLevelVo;
+import com.hushuai.fast.vo.ResultVo;
+import com.mysql.cj.xdevapi.JsonParser;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.ObjectUtils;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,7 +34,7 @@ import java.util.List;
 public class MemberLevelController {
 
     @Autowired
-    private MemberLevelService MemberLevelService;
+    private MemberLevelService memberLevelService;
 
     @RequestMapping("/memberLevelManagerPage")
     public String memberLevelManagerPage(){
@@ -39,12 +45,29 @@ public class MemberLevelController {
     @ResponseBody
     public String memberLevelList(MemberLevelVo memberLevel){
         JSONObject result = new JSONObject();
-        Integer total = MemberLevelService.countByLevelName(memberLevel);
-        List<MemberLevel> memberLevels = MemberLevelService.selectByLevelName(memberLevel);
+        Integer total = memberLevelService.countByLevelName(memberLevel);
+        List<MemberLevel> memberLevels = memberLevelService.selectByLevelName(memberLevel);
         result.put("rows",memberLevels);
         result.put("total",total);
 
         return result.toJSONString();
+    }
+
+    @PostMapping("/addMemberLevel")
+    @ResponseBody
+    public String addMemberLevel(MemberLevelVo memberLevel){
+
+        if (memberLevel == null || memberLevel.getLevelName().isEmpty()
+                || memberLevel.getCount() == null || memberLevel.getLimit() == null ){
+            ResultVo resultVo = new ResultVo(1, "参数不能为空！");
+            return JSON.toJSONString(resultVo);
+        }
+
+        MemberLevel level = new MemberLevel();
+        BeanUtils.copyProperties(memberLevel,level);
+        memberLevelService.insert(level);
+
+        return null;
     }
 
 }

@@ -8,10 +8,42 @@
 <script th:src="@{/static/js/bootstrap.js}"></script>
 <script th:src="@{/static/js/plugins/bootstrap-tables/bootstrap-table.min.js}"></script>
 <script th:src="@{/static/js/plugins/bootstrap-tables/bootstrap-table-zh-CN.js}"></script>
+<style>
+    .inmodel{
+        margin-left: 15px;
+        width: 70%;
+        display: block;
+        padding: .375rem .75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+</style>
 <div>
-    <label>会员等级名称</label><input id="memberLevelName" />
+    <label>会员等级名称</label><input id="memberLevelName" /><button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addMemberlevelmodel">开始演示模态框
+</button>
     <table id="memberLevelTable" class="table-hover"></table>
-
+    <div class="modal fade" id="addMemberlevelmodel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">创建会员等级</h4>
+                </div>
+                <div class="modal-body">会员等级名称</div><input class="inmodel" id="levelName" />
+                <div class="modal-body">会员等级折扣</div><input class="inmodel" id="count" />
+                <div class="modal-body">会员等级充值限额</div><input class="inmodel" id="limit" />
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" id="addButten">提交更改</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
 </div>
 
 <!-- Mainly scripts -->
@@ -27,12 +59,12 @@
 <script>
     function addFunctionAlty(value, row, index) {
         return [
-            '<button id="add" type="button" class="btn btn-default">新增</button>',
             '<button id="change" type="button" class="btn btn-default">修改</button>',
+            '<button id="del" type="button" class="btn btn-default">删除</button>'
         ].join('');
     }
     window.operateEvents = {
-        'click #add': function (e, value, row, index) {
+        'click #del': function (e, value, row, index) {
             alert(row.levelName);
             $("#upload").modal('show');
         }, 'click #change': function (e, value, row, index) {
@@ -40,6 +72,14 @@
             $("#upload").modal('show');
         }
     };
+
+    $("#addButten").click(function () {
+        var levelName = $("#levelName").val();
+        var count = $("#count").val();
+        var limit = $("#limit").val();
+        $.ajax({
+        })
+    });
 
     function queryParams(params){
         var param = {
@@ -93,7 +133,7 @@
             title: '最少充值限额'
         }, {
             title: '操作',
-            width: 120,
+            width: 500,
             align: 'center',
             valign: 'middle',
             formatter: addFunctionAlty,
