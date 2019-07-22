@@ -1,4 +1,6 @@
 package com.hushuai.fast.dao;
+import org.apache.ibatis.annotations.Param;
+import java.util.List;
 
 import com.hushuai.fast.dto.MemberLevel;
 import org.apache.ibatis.annotations.Mapper;
@@ -16,4 +18,13 @@ public interface MemberLevelMapper {
     int updateByPrimaryKeySelective(MemberLevel record);
 
     int updateByPrimaryKey(MemberLevel record);
+
+    List<MemberLevel> selectByLevelName(@Param("levelName")String levelName,@Param("start")Integer start,@Param("pageSize")Integer pageSize );
+
+    Integer countByLevelName(@Param("levelName")String levelName);
+
+
+
+
+
 }

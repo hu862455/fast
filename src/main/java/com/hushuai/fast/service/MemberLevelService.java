@@ -1,5 +1,8 @@
 package com.hushuai.fast.service;
+import java.util.List;
 
+import com.hushuai.fast.vo.MemberLevelVo;
+import io.swagger.models.auth.In;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import com.hushuai.fast.dao.MemberLevelMapper;
@@ -39,5 +42,22 @@ public class MemberLevelService{
     public int updateByPrimaryKey(MemberLevel record) {
         return memberLevelMapper.updateByPrimaryKey(record);
     }
+
+	public List<MemberLevel> selectByLevelName(MemberLevelVo memberLevel){
+        String levelName = memberLevel.getLevelName();
+        Integer pageSize = memberLevel.getPageSize();
+        Integer start = (memberLevel.getPageNumber()-1)*pageSize;
+        return memberLevelMapper.selectByLevelName(levelName,start,pageSize);
+	}
+
+	public Integer countByLevelName(MemberLevelVo memberLevel){
+		 return memberLevelMapper.countByLevelName(memberLevel.getLevelName());
+	}
+
+
+
+
+
+
 
 }

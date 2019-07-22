@@ -1,0 +1,11 @@
+[{"levelName":"黄金会员",
+  "count":"0.95",
+  "limit":"1000"
+},{"levelName":"普通会员",
+  "count":"0.90",
+  "limit":"2000"
+},{"levelName":"钻石会员",
+  "count":"0.85",
+  "limit":"3000"
+}
+]
