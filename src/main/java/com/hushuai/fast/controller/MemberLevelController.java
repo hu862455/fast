@@ -66,8 +66,33 @@ public class MemberLevelController {
         MemberLevel level = new MemberLevel();
         BeanUtils.copyProperties(memberLevel,level);
         memberLevelService.insert(level);
+        return JSON.toJSONString(new ResultVo(0,"添加成功！"));
+    }
 
-        return null;
+    @PostMapping("/updateMemberLevel")
+    @ResponseBody
+    public String updateMemberLevel(MemberLevelVo memberLevel){
+
+        if (memberLevel == null || memberLevel.getId() == null ){
+            ResultVo resultVo = new ResultVo(1, "参数不能为空！");
+            return JSON.toJSONString(resultVo);
+        }
+
+        MemberLevel level = new MemberLevel();
+        BeanUtils.copyProperties(memberLevel,level);
+        memberLevelService.updateByPrimaryKeySelective(level);
+        return JSON.toJSONString(new ResultVo(0,"修改成功！"));
+    }
+
+    @PostMapping("/delMemberLevel")
+    @ResponseBody
+    public String delMemberLevel(MemberLevelVo memberLevel){
+        if (memberLevel == null || memberLevel.getId() == null ){
+            ResultVo resultVo = new ResultVo(1, "参数不能为空！");
+            return JSON.toJSONString(resultVo);
+        }
+        int i = memberLevelService.deleteByPrimaryKey(memberLevel.getId());
+        return JSON.toJSONString(new ResultVo(0,"删除成功！"));
     }
 
 }

@@ -44,10 +44,15 @@ public class MemberLevelService{
     }
 
 	public List<MemberLevel> selectByLevelName(MemberLevelVo memberLevel){
-        String levelName = memberLevel.getLevelName();
-        Integer pageSize = memberLevel.getPageSize();
-        Integer start = (memberLevel.getPageNumber()-1)*pageSize;
-        return memberLevelMapper.selectByLevelName(levelName,start,pageSize);
+
+        if(memberLevel.getPageSize() == null || memberLevel.getPageNumber() == null){
+            return memberLevelMapper.selectByLevelName(memberLevel.getLevelName(),null,null);
+        }else{
+            String levelName = memberLevel.getLevelName();
+            Integer pageSize = memberLevel.getPageSize();
+            Integer start = (memberLevel.getPageNumber()-1)*pageSize;
+            return memberLevelMapper.selectByLevelName(levelName,start,pageSize);
+        }
 	}
 
 	public Integer countByLevelName(MemberLevelVo memberLevel){
