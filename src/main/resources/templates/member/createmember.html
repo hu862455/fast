@@ -43,11 +43,11 @@
                         </div>
                         <div class="form-group">
                             <label>密码 *</label>
-                            <input id="password" name="password" type="text" class="form-control required " placeholder="请输入密码..." />
+                            <input id="password" name="password" type="text" class="form-control required " placeholder="请输入密码..." value="888888"/>
                         </div>
                         <div class="form-group">
                             <label>确认密码 *</label>
-                            <input id="confirm" name="confirm" type="text" class="form-control required" placeholder="请再次输入密码..." />
+                            <input id="confirm" name="confirm" type="text" class="form-control required" placeholder="请再次输入密码..." value="888888"/>
                         </div>
                     </div>
                     <div class="col-lg-4">
@@ -67,11 +67,15 @@
                     <div class="col-lg-6">
                         <div class="form-group">
                             <label>手机号码 *</label>
-                            <input id="name" name="telephone" type="text" class="form-control required telephone" />
+                            <input id="telephone" name="telephone" type="text" class="form-control required telephone" />
                         </div>
                         <div class="form-group">
                             <label>性别 *</label>
-                            <input id="sex" name="sex" type="text" class="form-control required"/>
+                            <select class="form-control m-b" name="sex" id="sex">
+                                <option value="1">男</option>
+                                <option value="0">女</option>
+                                <option value="2">未知</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -93,11 +97,7 @@
                         <label class="col-lg-1" style="padding: 0px;
     margin-top: 6px;"><i class="fa fa-diamond"></i>会员等级:</label>
                         <div class="col-lg-10">
-                            <select class="form-control m-b" name="memberLevel">
-                                <option>普通会员</option>
-                                <option>黄金会员</option>
-                                <option>铂金会员</option>
-                                <option>钻石会员</option>
+                            <select class="form-control m-b" name="memberLevel" id="memberLevel">
                             </select>
                         </div>
                     </div>
@@ -114,6 +114,7 @@
             <h1>结束</h1>
             <fieldset>
                 <h2>条款和条件</h2>
+                充值金额不允许退款和转账！
                 <input id="acceptTerms" name="acceptTerms" type="checkbox" class="required"> <label for="acceptTerms">我同意条款和条件。</label>
             </fieldset>
         </form>

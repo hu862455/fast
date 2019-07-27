@@ -91,8 +91,16 @@ public class MemberLevelController {
             ResultVo resultVo = new ResultVo(1, "参数不能为空！");
             return JSON.toJSONString(resultVo);
         }
-        int i = memberLevelService.deleteByPrimaryKey(memberLevel.getId());
-        return JSON.toJSONString(new ResultVo(0,"删除成功！"));
+        int flag = memberLevelService.deleteByPrimaryKey(memberLevel.getId());
+        if (flag == 1){
+            return JSON.toJSONString(new ResultVo(0,"删除成功！"));
+        }
+        return JSON.toJSONString(new ResultVo(1,"删除失败，请联系管理员！"));
     }
 
+    @PostMapping("/allMemberLevel")
+    @ResponseBody
+    public String allMemberLevel(){
+        return JSON.toJSONString(memberLevelService.findAll());
+    }
 }

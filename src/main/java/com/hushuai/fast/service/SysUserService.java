@@ -4,6 +4,7 @@ import com.hushuai.fast.dao.SysPermissionMapper;
 import com.hushuai.fast.dao.SysUserMapper;
 import com.hushuai.fast.dto.SysUser;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -47,5 +48,9 @@ public class SysUserService {
         return sysUserMapper.selectByUsername(username).get(0);
     }
 
-
+    public SysUser getCurUser(){
+        String curName = SecurityContextHolder.getContext().getAuthentication().getName();
+        SysUser curUser = this.selectByUsername(curName);
+        return curUser;
+    }
 }

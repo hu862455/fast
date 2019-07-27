@@ -87,7 +87,7 @@
                 $("#addButten").show();
                 $("#changeButten").hide();
                 $('#addMemberlevelmodel').modal('show');
-            })
+            });
 
             $("#search").click(function () {
                 $("#memberLevelTable").bootstrapTable('destroy');
@@ -167,7 +167,7 @@
             'click #del': function (e, value, row, index) {
                 swal({
                         title: "你确定？",
-                        text: "你将无法恢复这个会员等级信息！",
+                        text: "你将删除所有属于这个等级的会员且无法恢复这个会员等级信息！",
                         type: "warning",
                         showCancelButton: true,
                         confirmButtonColor: "#DD6B55",

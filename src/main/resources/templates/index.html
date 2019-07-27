@@ -96,7 +96,7 @@
                 <li>
                     <a href="#"><i class="fa fa-user"></i> <span class="nav-label">会员管理</span> <span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
-                        <li><a href="#">查询会员</a></li>
+                        <li><a href="#" onclick="index.chooseTab('memberListPage')">查询会员</a></li>
                         <li><a href="#" onclick="index.chooseTab('createMember')">新增会员</a></li>
                         <li><a href="#" onclick="index.chooseTab('memberLevelPage')">会员级别管理</a></li>
                         <li><a href="#">会员充值</a></li>
@@ -143,6 +143,7 @@
             <div class="row"  style="height: 100%;width: 100%">
                 <div id="createMember" class="col-md-12 contentInfo" th:include="/member/createMember::createMember" style="display: none"></div>
                 <div id="memberLevelPage" class="col-md-12 contentInfo" th:include="/member/memberLevel::memberLevelPage" style="display: none"></div>
+                <div id="memberListPage" class="col-md-12 contentInfo" th:include="/member/memberList::memberListPage" style="display: none"></div>
             </div>
         </div>
         <div class="footer">

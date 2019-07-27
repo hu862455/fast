@@ -23,4 +23,7 @@ public interface MemberLevelMapper {
 
     Integer countByLevelName(@Param("levelName")String levelName);
 
+    List<MemberLevel> findAll();
+
+
 }

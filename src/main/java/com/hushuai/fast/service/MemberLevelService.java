@@ -7,6 +7,13 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import com.hushuai.fast.dao.MemberLevelMapper;
 import com.hushuai.fast.dto.MemberLevel;
+/**
+ * @Class_name: MemberLevelService
+ * @Exception:
+ * @Describe: TODO
+ * @Author: shuaihu2
+ * @Creat_date: 2019/7/27 10:12
+ **/
 @Service
 public class MemberLevelService{
 
@@ -58,6 +65,13 @@ public class MemberLevelService{
 	public Integer countByLevelName(MemberLevelVo memberLevel){
 		 return memberLevelMapper.countByLevelName(memberLevel.getLevelName());
 	}
+
+	public List<MemberLevel> findAll(){
+		 return memberLevelMapper.findAll();
+	}
+
+
+
 
 
 

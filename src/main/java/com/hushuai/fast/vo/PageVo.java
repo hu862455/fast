@@ -1,7 +1,5 @@
 package com.hushuai.fast.vo;
 
-import lombok.Data;
-
 import java.util.Objects;
 
 /**
