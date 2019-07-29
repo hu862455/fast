@@ -9,7 +9,8 @@ var memberListPage = function () {
         var param = {
             pageNumber: params.pageNumber,
             pageSize: params.pageSize,
-            levelName: $("#memberLevelName").val()
+            memberLevelId: $("#search-levelName").val(),
+            name:$("#search-memberName").val()
         };
         return param;
     }
@@ -117,7 +118,7 @@ var memberListPage = function () {
             $("#recharge_account").val(row.account);
             $("#recharge_totalAccount").val(row.totalAccount);
             $('#memberRechargeModal').modal('show');
-            $("#rechargeButten").click(function (data) {
+            $("#rechargeButten").click(function () {
                 var recharge_money = $("#recharge_money").val();
                 var id = row.id;
                 $.ajax({
@@ -127,6 +128,7 @@ var memberListPage = function () {
                     cache: false,
                     data:{id:id,recharge:recharge_money},
                     success:function (data) {
+                        $('#memberRechargeModal').modal('hide');
                         if (data.code == 1) {
                             // 失败
                             swal({
@@ -149,6 +151,7 @@ var memberListPage = function () {
 
     };
 
+
     function initPage() {
         // 获取所有的会员等级信息
         $.ajax({
@@ -158,14 +161,16 @@ var memberListPage = function () {
             cache: false,
             success: function (data) {
                 var data = JSON.parse(data);
-                var html = "";
+                var html = "<option></option>";
+                var html2 = "<option></option>";
                 for (var i = 0; i < data.length; i++) {
-                    html += "<option value =" + data[i].id + " onclick=\"memberListPage.changeMoney('" + data[i].limit + "')\">" + data[i].levelName + "</option>"
+                    html += "<option value =" + data[i].id + " onclick=\"memberListPage.changeMoney('" + data[i].limit + "')\">" + data[i].levelName + "</option>";
+                    html2 += "<option value =" + data[i].id + ">"+ data[i].levelName + "</option>"
                 }
                 $("#memberLevelName").html(html);
+                $("#search-levelName").html(html2);
             }
         });
-
         $("#memberInfoTable").bootstrapTable('destroy');
         $("#memberInfoTable").bootstrapTable({
             url: contentPath + 'member/getMemberList',
@@ -173,7 +178,7 @@ var memberListPage = function () {
             queryParamsType: "", // 设置为 ''  在这种情况下传给服务器的参数为：pageSize,pageNumber
             queryParams:memberListPage.queryMemberParams,
             sidePagination: 'server',
-            method: "POST",
+            method: "GET",
             exportDataType: 'all',
             showExport: true,
             toolbar: '#memberToolbar',
@@ -253,6 +258,96 @@ var memberListPage = function () {
                 events: operateMemberEvents
             }]
         })
+
+        $("#Member-search").click(function () {
+            $("#memberInfoTable").bootstrapTable('destroy');
+            $("#memberInfoTable").bootstrapTable({
+                url: contentPath + 'member/getMemberList',
+                pagination: true, // 显示分页
+                queryParamsType: "", // 设置为 ''  在这种情况下传给服务器的参数为：pageSize,pageNumber
+                queryParams:memberListPage.queryMemberParams,
+                sidePagination: 'server',
+                method: "GET",
+                exportDataType: 'all',
+                showExport: true,
+                toolbar: '#memberToolbar',
+                exportTypes: ['txt', 'excel', 'json'],
+                buttonsAlign: "right",  //按钮位置
+                exportOptions: {
+                    ignoreColumn: [0, 1],  //忽略某一列的索引
+                    fileName: '会员信息表',  //文件名称设置
+                    worksheetName: 'sheet1',  //表格工作区名称
+                    tableName: '会员信息表'
+                },
+                showPaginationSwitch: false,
+                pageNumber: 1,
+                pageSize: 10,
+                locale: 'zh-CN',
+                cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                striped: true, //是否显示行间隔色
+                columns: [{
+                    checkbox: true,
+                    visible: true                  //是否显示复选框
+                }, {
+                    field: 'id',
+                    title: 'id',
+                    visible: false
+                }, {
+                    field: 'number',
+                    title: '序号',
+                    width: 5,
+                    align: 'center',
+                    switchable: false,
+                    formatter: function (value, row, index) {
+                        //return index+1; //序号正序排序从1开始
+                        var pageSize = $('#memberInfoTable').bootstrapTable('getOptions').pageSize;//通过表的#id 可以得到每页多少条
+                        var pageNumber = $('#memberInfoTable').bootstrapTable('getOptions').pageNumber;//通过表的#id 可以得到当前第几页
+                        return pageSize * (pageNumber - 1) + index + 1;    //返回每条的序号： 每页条数 * （当前页 - 1 ）+ 序号
+                    }
+                }, {
+                    field: 'name',
+                    title: '会员名字'
+                }, {
+                    field: 'telephone',
+                    title: '电话号码'
+                }, {
+                    field: 'count',
+                    title: '会员折扣'
+                }, {
+                    field: 'address',
+                    title: '地址'
+                }, {
+                    field: 'sex',
+                    title: '性别',
+                    formatter: function (value, row, index) {
+                        if (value === 1) {
+                            return "男";
+                        } else if (value === 0) {
+                            return "女";
+                        } else {
+                            return "未知";
+                        }
+                    }
+                }, {
+                    field: 'account',
+                    title: '账户余额'
+                }, {
+                    field: 'levelName',
+                    title: '会员等级'
+                }, {
+                    field: 'totalAccount',
+                    title: '充值总额'
+                }, {
+                    title: '操作',
+                    width: 500,
+                    align: 'center',
+                    valign: 'middle',
+                    formatter: addFunctionAlty,
+                    addFunctionAlty:addFunctionAlty,
+                    events: operateMemberEvents
+                }]
+            })
+        });
     }
 
     return {

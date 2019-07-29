@@ -12,13 +12,12 @@
 <div>
     <!--  工具toolbar start  -->
     <div id="memberToolbar" class="btn-group">
-        <button id="addMemberLevelButton" class="btn btn-primary btn-sm">
-            新增会员等级
-        </button>
         <div style="margin-left: 10px">
             <h7><small>会员名称：</small></h7>
-            <input id="name"/>
-            <button class="btn btn-primary btn-sm" id="search">搜索</button>
+            <input id="search-memberName"/>
+            <h7><small>会员等级：</small></h7>
+            <select class="inmodel"  id="search-levelName"></select>
+            <button class="btn btn-primary btn-sm" id="Member-search">搜索</button>
         </div>
     </div>
     <!--  工具toolbar end  -->
@@ -46,7 +45,7 @@
                     <option value="2">未知</option>
                 </select>
                 <div class="modal-body">会员等级</div>
-                <select class="inmodel" id="memberLevelName">
+                <select class="inmodel memberLevelName" id="memberLevelName">
 
                 </select>
                 <div class="modal-footer">

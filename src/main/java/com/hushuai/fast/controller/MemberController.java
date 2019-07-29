@@ -61,7 +61,7 @@ public class MemberController {
         return JSON.toJSONString(new ResultVo(1, "创建用户失败，请联系管理员！"));
     }
 
-    @PostMapping("/getMemberList")
+    @GetMapping("/getMemberList")
     @ResponseBody
     public String getMemberList(MemberVo memberVo) {
         JSONObject result = new JSONObject();
