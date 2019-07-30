@@ -1,13 +1,18 @@
 package com.hushuai.fast.controller;
 
+import com.hushuai.fast.dto.MemberLevel;
+import com.hushuai.fast.service.MemberLevelService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,6 +27,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class IndexController {
 
     private Logger logger = LoggerFactory.getLogger(IndexController.class);
+
+    @Autowired
+    private MemberLevelService memberLevelService;
 
     @RequestMapping(value = "/404Page")
     public String error404Page(){
@@ -52,8 +60,21 @@ public class IndexController {
     }
 
     @RequestMapping("/createMemberPage")
-    public String createMemberPage() {
-        return "/member/createmember.html";
+    public String createMemberPage(Model model) {
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        model.addAttribute("curName",name);
+        List<MemberLevel> levelServiceAll = memberLevelService.findAll();
+        model.addAttribute("levelServiceAll",levelServiceAll);
+        return "/member/createMemberPage.html";
+    }
+
+    @RequestMapping("/memberListPage")
+    public String memberListPage(Model model) {
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        model.addAttribute("curName",name);
+        List<MemberLevel> levelServiceAll = memberLevelService.findAll();
+        model.addAttribute("levelServiceAll",levelServiceAll);
+        return "/member/memberListPage.html";
     }
 
     @RequestMapping("/index")

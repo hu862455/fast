@@ -1,13 +1,12 @@
 var createMember = function () {
 
-    function changeMoney(money) {
-    debugger;
-        $("#chargeAmount").val(money);
+    function changeMoney(limit) {
+        $("#chargeAmount").val(limit);
     }
 
     function initPage() {
         // 获取所有的会员等级信息
-        $.ajax({
+        /*$.ajax({
             url: contentPath + "memberLevel/allMemberLevel",
             method: 'POST',
             async: false,
@@ -20,8 +19,13 @@ var createMember = function () {
                 }
                 $("#memberLevel").html(html);
             }
+        });*/
+        $("#memberLevel>option").each(function () {
+            $(this).click(function () {
+                var limit = this.attr("limit");
+                $("#chargeAmount").val(limit);
+            });
         });
-
 
         $("#form").steps({
             bodyTag: "fieldset",
@@ -129,6 +133,7 @@ var createMember = function () {
     }
 }();
 
+/*
 $().ready(function () {
     createMember.initPage();
-});
+});*/
