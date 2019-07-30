@@ -133,7 +133,7 @@ var createMember = function () {
     }
 }();
 
-/*
+
 $().ready(function () {
     createMember.initPage();
-});*/
+});

@@ -77,6 +77,15 @@ public class IndexController {
         return "/member/memberListPage.html";
     }
 
+    @RequestMapping("/memberLevelPage")
+    public String memberLevelPage(Model model) {
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        model.addAttribute("curName",name);
+        List<MemberLevel> levelServiceAll = memberLevelService.findAll();
+        model.addAttribute("levelServiceAll",levelServiceAll);
+        return "/member/memberLevelPage.html";
+    }
+
     @RequestMapping("/index")
     public String showIndex() {
         String name = SecurityContextHolder.getContext().getAuthentication().getName();

@@ -1,161 +1,83 @@
-<!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml" th:fragment="memberLevelPage">
+var memberLevelPage = function () {
 
-<!--<link th:href="@{/static/css/bootstrap.min.css}" rel="stylesheet">-->
-<link th:href="@{/static/css/plugins/iCheck/custom.css}" rel="stylesheet">
-<link th:href="@{/static/css/plugins/bootstrap-tables/bootstrap-table.min.css}" rel="stylesheet">
-<link th:href="@{/static/css/plugins/sweetalert/sweetalert.css}" rel="stylesheet">
 
-<!--<script th:src="@{/static/js/jquery-3.1.1.min.js}"></script>-->
-<!--<script src="https://cdn.bootcss.com/popper.js/1.14.7/umd/popper.min.js"></script>-->
-<!--<script th:src="@{/static/js/bootstrap.js}"></script>-->
-<script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
-<script th:src="@{/static/js/plugins/bootstrap-tables/bootstrap-table.min.js}"></script>
-<script th:src="@{/static/js/plugins/bootstrap-tables/bootstrap-table-zh-CN.js}"></script>
-<script th:src="@{/static/js/plugins/bootstrap-tables/bootstrap-table-export.min.js}"></script>
-
-<script th:src="@{/static/js/plugins/sweetalert/sweetalert.min.js}"></script>
-<style>
-    .inmodel {
-        margin-left: 15px;
-        width: 70%;
-        display: block;
-        padding: .375rem .75rem;
-        font-size: 1rem;
-        line-height: 1.5;
-        color: #495057;
-        background-color: #fff;
-        background-clip: padding-box;
-        border: 1px solid #ced4da;
-        border-radius: .25rem;
-        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-    }
-</style>
-<div>
-    <div id="toolbar" class="btn-group">
-        <button id="addMemberLevelButton" class="btn btn-primary btn-sm">
-            新增会员等级
-        </button>
-        <div style="margin-left: 10px">
-            <h7><small>会员等级名称：</small></h7><input id="memberLevelName"/>
-            <button class="btn btn-primary btn-sm" id="search">搜索</button>
-        </div>
-    </div>
-
-    <table id="memberLevelTable" class="table-hover"></table>
-    <div class="modal inmodal" id="addMemberlevelmodel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel">创建会员等级</h4>
-                </div>
-                <div class="modal-body">会员等级名称</div>
-                <input class="inmodel" id="levelName"/>
-                <div class="modal-body">会员等级折扣</div>
-                <input class="inmodel" id="count"/>
-                <div class="modal-body">会员等级充值限额</div>
-                <input class="inmodel" id="limit"/>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-primary" id="addButten">提交更改</button>
-                    <button type="button" class="btn btn-primary" id="changeButten" style="display: none">提交更改</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal -->
-    </div>
-</div>
-
-<!-- Mainly scripts -->
-<!--<script th:src="@{/static/js/jquery-3.1.1.min.js}"></script>-->
-<!--<script th:src="@{/static/js/popper.min.js}"></script>-->
-<!--<script th:src="@{/static/js/bootstrap.js}"></script>-->
-<!--<script th:src="@{/static/js/plugins/metisMenu/jquery.metisMenu.js}"></script>-->
-<!--<script th:src="@{/static/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>-->
-<!-- Steps -->
-<!--<script th:src="@{/static/js/inspinia.js}"></script>-->
-<!--<script th:src="@{/static/js/plugins/pace/pace.min.js}"></script>-->
-
-<script>
-    var contentPath = [[@{/}]];
-        $(function () {
-            $('#addMemberlevelmodel').modal('hide');
-            $("#addMemberLevelButton").click(function () {
-                $("#myModalLabel").html("新增会员等级");
-                $("#levelName").val();
-                $("#count").val();
-                $("#limit").val();
-                $("#addButten").show();
-                $("#changeButten").hide();
-                $('#addMemberlevelmodel').modal('show');
-            });
-
-            $("#search").click(function () {
-                $("#memberLevelTable").bootstrapTable('destroy');
-                $("#memberLevelTable").bootstrapTable({
-                    url: contentPath+'memberLevel/memberLevelList',
-                    pagination: true, // 显示分页
-                    queryParamsType: "", // 设置为 ''  在这种情况下传给服务器的参数为：pageSize,pageNumber
-                    queryParams: queryParams,
-                    sidePagination: 'server',
-                    method: "GET",
-                    exportDataType: 'all',
-                    showExport: true,
-                    exportTypes: ['txt', 'excel', 'json'],
-                    buttonsAlign: "right",  //按钮位置
-                    exportOptions: {
-                        ignoreColumn: [0, 1],  //忽略某一列的索引
-                        fileName: '会员等级信息表',  //文件名称设置
-                        worksheetName: 'sheet1',  //表格工作区名称
-                        tableName: '会员等级信息表'
-                    },
-                    showPaginationSwitch: false,
-                    toolbar:'#toolbar',
-                    pageNumber: 1,
-                    pageSize: 10,
-                    locale: 'zh-CN',
-                    cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
-                    striped: true, //是否显示行间隔色
-                    columns: [{
-                        checkbox: true,
-                        visible: true                  //是否显示复选框
-                    }, {
-                        field: 'id',
-                        title: 'id',
-                        visible: false
-                    }, {
-                        field: 'number',
-                        title: '序号',
-                        width: 5,
-                        align: 'center',
-                        switchable: false,
-                        formatter: function (value, row, index) {
-                            //return index+1; //序号正序排序从1开始
-                            var pageSize = $('#memberLevelTable').bootstrapTable('getOptions').pageSize;//通过表的#id 可以得到每页多少条
-                            var pageNumber = $('#memberLevelTable').bootstrapTable('getOptions').pageNumber;//通过表的#id 可以得到当前第几页
-                            return pageSize * (pageNumber - 1) + index + 1;    //返回每条的序号： 每页条数 * （当前页 - 1 ）+ 序号
-                        }
-                    }, {
-                        field: 'levelName',
-                        title: '等级名称'
-                    }, {
-                        field: 'count',
-                        title: '会员折扣'
-                    }, {
-                        field: 'limit',
-                        title: '最少充值限额'
-                    }, {
-                        title: '操作',
-                        width: 500,
-                        align: 'center',
-                        valign: 'middle',
-                        formatter: addFunctionAlty,
-                        events: operateEvents
-                    }]
-
-                });
-            });
+    function initPage() {
+        $('#addMemberlevelmodel').modal('hide');
+        $("#addMemberLevelButton").click(function () {
+            $("#myModalLabel").html("新增会员等级");
+            $("#levelName").val();
+            $("#count").val();
+            $("#limit").val();
+            $("#addButten").show();
+            $("#changeButten").hide();
+            $('#addMemberlevelmodel').modal('show');
         });
 
+        $("#search").click(function () {
+            $("#memberLevelTable").bootstrapTable('destroy');
+            $("#memberLevelTable").bootstrapTable({
+                url: contentPath+'memberLevel/memberLevelList',
+                pagination: true, // 显示分页
+                queryParamsType: "", // 设置为 ''  在这种情况下传给服务器的参数为：pageSize,pageNumber
+                queryParams: queryParams,
+                sidePagination: 'server',
+                method: "GET",
+                exportDataType: 'all',
+                showExport: true,
+                exportTypes: ['txt', 'excel', 'json'],
+                buttonsAlign: "right",  //按钮位置
+                exportOptions: {
+                    ignoreColumn: [0, 1],  //忽略某一列的索引
+                    fileName: '会员等级信息表',  //文件名称设置
+                    worksheetName: 'sheet1',  //表格工作区名称
+                    tableName: '会员等级信息表'
+                },
+                showPaginationSwitch: false,
+                toolbar:'#toolbar',
+                pageNumber: 1,
+                pageSize: 10,
+                locale: 'zh-CN',
+                cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                striped: true, //是否显示行间隔色
+                columns: [{
+                    checkbox: true,
+                    visible: true                  //是否显示复选框
+                }, {
+                    field: 'id',
+                    title: 'id',
+                    visible: false
+                }, {
+                    field: 'number',
+                    title: '序号',
+                    width: 5,
+                    align: 'center',
+                    switchable: false,
+                    formatter: function (value, row, index) {
+                        //return index+1; //序号正序排序从1开始
+                        var pageSize = $('#memberLevelTable').bootstrapTable('getOptions').pageSize;//通过表的#id 可以得到每页多少条
+                        var pageNumber = $('#memberLevelTable').bootstrapTable('getOptions').pageNumber;//通过表的#id 可以得到当前第几页
+                        return pageSize * (pageNumber - 1) + index + 1;    //返回每条的序号： 每页条数 * （当前页 - 1 ）+ 序号
+                    }
+                }, {
+                    field: 'levelName',
+                    title: '等级名称'
+                }, {
+                    field: 'count',
+                    title: '会员折扣'
+                }, {
+                    field: 'limit',
+                    title: '最少充值限额'
+                }, {
+                    title: '操作',
+                    width: 500,
+                    align: 'center',
+                    valign: 'middle',
+                    formatter: addFunctionAlty,
+                    events: operateEvents
+                }]
+
+            });
+        });
         function addFunctionAlty(value, row, index) {
             return [
                 '<button id="change" type="button" class="btn btn-default">修改</button>',
@@ -342,7 +264,14 @@
             }]
 
         });
+    }
 
+    return {
+        initPage:initPage,
 
-</script>
-</html>
+    }
+}();
+
+$().ready(function () {
+    memberLevelPage.initPage();
+});

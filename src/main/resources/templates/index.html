@@ -68,7 +68,7 @@
                     <div class="dropdown profile-element">
                         <img alt="image" class="rounded-circle" th:src="@{/static/img/profile_small.jpg}"/>
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <span class="block m-t-xs font-bold">胡帅</span>
+                            <span class="block m-t-xs font-bold" th:text="${curName}"></span>
                             <span class="text-muted text-xs block">管理员 <b class="caret"></b></span>
                         </a>
                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
@@ -98,7 +98,7 @@
                     <ul class="nav nav-second-level">
                         <li><a th:href="@{/index/memberListPage}">查询会员</a></li>
                         <li><a th:href="@{/index/createMemberPage}">新增会员</a></li>
-                        <li><a href="#" onclick="index.chooseTab('memberLevelPage')">会员级别管理</a></li>
+                        <li><a th:href="@{/index/memberLevelPage}">会员级别管理</a></li>
                         <li><a href="#">会员充值</a></li>
                     </ul>
                 </li>
