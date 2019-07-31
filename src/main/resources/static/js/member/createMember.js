@@ -20,12 +20,12 @@ var createMember = function () {
                 $("#memberLevel").html(html);
             }
         });*/
-        $("#memberLevel>option").each(function () {
+/*        $("#memberLevel>option").each(function () {
             $(this).click(function () {
                 var limit = this.attr("limit");
                 $("#chargeAmount").val(limit);
             });
-        });
+        });*/
 
         $("#form").steps({
             bodyTag: "fieldset",
