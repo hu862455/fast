@@ -86,6 +86,13 @@ public class IndexController {
         return "/member/memberLevelPage.html";
     }
 
+    @RequestMapping("/memberImportPage")
+    public String memberImportPage(Model model) {
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        model.addAttribute("curName",name);
+        return "/member/memberImportPage.html";
+    }
+
     @RequestMapping("/index")
     public String showIndex() {
         String name = SecurityContextHolder.getContext().getAuthentication().getName();

@@ -185,7 +185,6 @@ var memberListPage = function () {
             exportTypes: ['txt', 'excel', 'json'],
             buttonsAlign: "right",  //按钮位置
             exportOptions: {
-                ignoreColumn: [0, 1],  //忽略某一列的索引
                 fileName: '会员信息表',  //文件名称设置
                 worksheetName: 'sheet1',  //表格工作区名称
                 tableName: '会员信息表'

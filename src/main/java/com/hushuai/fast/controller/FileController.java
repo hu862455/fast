@@ -1,6 +1,11 @@
 package com.hushuai.fast.controller;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.hushuai.fast.vo.MemberVo;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -16,6 +21,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -33,9 +42,12 @@ public class FileController {
 
     @RequestMapping(value = "/upload")
     @ResponseBody
-    public String upload(@RequestParam("test") MultipartFile file) {
+    public JSONObject upload(@RequestParam("file") MultipartFile file) {
+        JSONObject result = new JSONObject();
+        result.put("code",1);
         if (file.isEmpty()) {
-            return "文件为空";
+            result.put("msg","文件为空");
+            return result;
         }
         // 获取文件名
         String fileName = file.getOriginalFilename();
@@ -47,26 +59,34 @@ public class FileController {
         String filePath = "D://test//";
         // 解决中文问题，liunx下中文路径，图片显示问题
         // fileName = UUID.randomUUID() + suffixName;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-mm-ss");
+        String curTime = sdf.format(new Date());
+        fileName = curTime+fileName;
         File dest = new File(filePath + fileName);
         // 检测是否存在目录
         if (!dest.getParentFile().exists()) {
-            dest.getParentFile().mkdirs();
+            boolean mkdirs = dest.getParentFile().mkdirs();
+            if (!mkdirs){
+                throw new IllegalStateException();
+            }
         }
         try {
             file.transferTo(dest);
-            return "上传成功";
+            result.put("code",0);
+            result.put("msg","上传成功！");
+            return result;
         } catch (IllegalStateException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "上传失败";
+        result.put("msg","上传失败！");
+        return result;
     }
 
     // 文件下载
     @RequestMapping("/download")
-    public String downloadFile(HttpServletRequest request, HttpServletResponse response) {
-        String fileName = "233EB630-7DF7-422a-A3B5-E17D68676AC7.png";
+    public String downloadFile(HttpServletRequest request, HttpServletResponse response, String fileName) {
         if (fileName != null) {
             // 当前是从该工程的WEB-INF//File//下获取文件(该目录可以在下面一行代码配置)然后下载到C:\\users\\downloads即本机的默认下载的目录
             // String realPath =
@@ -112,5 +132,29 @@ public class FileController {
         return null;
     }
 
+    // excel文件解析
+    public void importMemberList(String filePath){
+        filePath = "D://test//"+"2019-07-31-52-47会员信息表.xls";
+        List<MemberVo> memberList = new ArrayList<>();
+        try {
+            HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(filePath));
+            HSSFSheet memberListTable = workbook.getSheet("Table");
+            int lastRowNum = memberListTable.getLastRowNum();
+            for (int i = 1; i < lastRowNum; i++) {
+                HSSFRow row = memberListTable.getRow(i);
+                // 创建会员实体
+                MemberVo memberVo = new MemberVo();
+                // 1会员名字
+                memberVo.setName(row.getCell(0).getStringCellValue());
+                // 2电话号码
+                memberVo.setTelephone(row.getCell(1).getStringCellValue());
+                // 3会员折扣
+//                row.getCell(2).getNumericCellValue()
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
