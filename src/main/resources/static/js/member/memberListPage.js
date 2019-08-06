@@ -351,6 +351,12 @@ var memberListPage = function () {
                 }]
             })
         });
+
+        $("#Member-export").click(function () {
+            var memberLevelId = $("#search-levelName").val();
+            var name = $("#search-memberName").val();
+            window.location.href=contentPath + "member/exportExcel?memberLevelId="+memberLevelId+"&name="+name;
+        });
     }
 
     return {

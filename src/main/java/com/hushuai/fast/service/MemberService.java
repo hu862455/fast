@@ -4,6 +4,15 @@ import com.hushuai.fast.dao.MemberMapper;
 import com.hushuai.fast.dto.Member;
 import com.hushuai.fast.dto.SysUser;
 import com.hushuai.fast.vo.MemberVo;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +29,7 @@ import java.util.List;
  * @Creat_date: 2019/7/27 11:54
  **/
 @Service
-public class MemberService {
+public class MemberService extends CommonService{
 
     @Resource
     private MemberMapper memberMapper;
@@ -101,6 +110,44 @@ public class MemberService {
 
 	public void truncateMemberTable(){
         memberMapper.truncateMemberTable();
+    }
+
+    public HSSFWorkbook exportExcel(MemberVo memberVo){
+
+        String[] tableHeaders = {"id", "会员名字", "电话号码","会员折扣","地址","性别","账户余额","会员等级","充值总额"};
+
+        List<MemberVo> memberList = getMemberList(memberVo);
+        HSSFWorkbook workbook = new HSSFWorkbook();
+        HSSFSheet sheet = workbook.createSheet("Table");
+        HSSFCellStyle cellStyle = workbook.createCellStyle();
+        cellStyle.setAlignment(HorizontalAlignment.CENTER);
+        cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+        Font font = workbook.createFont();
+        font.setBold(true);
+        cellStyle.setFont(font);
+        // 创建表头
+        HSSFRow header = sheet.createRow(0);
+        for (int i = 0; i < tableHeaders.length; i++) {
+            HSSFCell cell = header.createCell(i);
+            cell.setCellValue(tableHeaders[i]);
+            cell.setCellStyle(cellStyle);
+        }
+
+        // 填充内容
+        for (int i = 0; i < memberList.size(); i++) {
+            HSSFRow row = sheet.createRow(1 + i);
+            row.createCell(0).setCellValue(memberList.get(i).getId());
+            row.createCell(1).setCellValue(memberList.get(i).getName());
+            row.createCell(2).setCellValue(memberList.get(i).getTelephone());
+            row.createCell(3).setCellValue(memberList.get(i).getCount());
+            row.createCell(4).setCellValue(memberList.get(i).getAddress());
+            row.createCell(5).setCellValue(sexInteger2String(memberList.get(i).getSex()));
+            row.createCell(6).setCellValue(memberList.get(i).getAccount().doubleValue());
+            row.createCell(7).setCellValue(memberList.get(i).getLevelName());
+            row.createCell(8).setCellValue(memberList.get(i).getTotalAccount().doubleValue());
+        }
+        return workbook;
+
     }
 }
 

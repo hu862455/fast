@@ -8,6 +8,7 @@ import com.hushuai.fast.service.MemberLevelService;
 import com.hushuai.fast.service.MemberService;
 import com.hushuai.fast.vo.MemberVo;
 import com.hushuai.fast.vo.ResultVo;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -70,6 +76,27 @@ public class MemberController {
         result.put("total",total);
         result.put("rows",memberList);
         return result.toJSONString();
+    }
+
+    @RequestMapping("/exportExcel")
+    public void exportExcel(MemberVo memberVo, HttpServletResponse response){
+        HSSFWorkbook workbook = memberService.exportExcel(memberVo);
+        try {
+            OutputStream outputStream = response.getOutputStream();
+            response.reset();
+            response.setContentType("application/vnd.ms-excel;charset=ISO8859-1");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-mm-ss");
+            String curTime = sdf.format(new Date());
+            String fileName = curTime+"会员信息表.xls";
+            fileName = new String(fileName.getBytes(),"ISO8859-1");
+            response.setHeader("Content-disposition", "attachment;filename="+fileName);
+
+            workbook.write(outputStream);
+            outputStream.flush();
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @PostMapping("/delMember")

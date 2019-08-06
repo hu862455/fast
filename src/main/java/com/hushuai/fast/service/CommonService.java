@@ -26,4 +26,21 @@ public class CommonService {
         }
         return sexInteger;
     }
+
+    public String sexInteger2String(Integer sexInteger) {
+        String sexString = "未知";
+        switch (sexInteger) {
+
+            case 1:
+                sexString = "男";
+                break;
+            case 0:
+                sexString = "女";
+
+            default:
+                sexString = "未知";
+                break;
+        }
+        return sexString;
+    }
 }
