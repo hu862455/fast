@@ -1,8 +1,5 @@
 package com.hushuai.fast.vo;
 
-import lombok.Data;
-
-import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -14,7 +11,7 @@ import java.util.Objects;
  * @Interface: MemberVo
  * @Description:
  */
-public class MemberVo extends PageVo{
+public class MemberVo extends PageVo {
     private Integer id;
     private Integer memberLevelId;
     private String name;

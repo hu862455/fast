@@ -2,12 +2,17 @@ package com.hushuai.fast.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.hushuai.fast.dto.Member;
+import com.hushuai.fast.service.FileService;
+import com.hushuai.fast.service.MemberLevelService;
+import com.hushuai.fast.service.MemberService;
 import com.hushuai.fast.vo.MemberVo;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,6 +26,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,9 +42,18 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/file")
-public class FileController {
+public class FileController extends CommonController{
 
     private Logger logger = LoggerFactory.getLogger(FileController.class);
+
+    @Autowired
+    MemberLevelService memberLevelService;
+
+    @Autowired
+    MemberService memberService;
+
+    @Autowired
+    FileService fileService;
 
     @RequestMapping(value = "/upload")
     @ResponseBody
@@ -72,6 +87,7 @@ public class FileController {
         }
         try {
             file.transferTo(dest);
+            importMemberList(filePath + fileName);
             result.put("code",0);
             result.put("msg","上传成功！");
             return result;
@@ -134,27 +150,7 @@ public class FileController {
 
     // excel文件解析
     public void importMemberList(String filePath){
-        filePath = "D://test//"+"2019-07-31-52-47会员信息表.xls";
-        List<MemberVo> memberList = new ArrayList<>();
-        try {
-            HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(filePath));
-            HSSFSheet memberListTable = workbook.getSheet("Table");
-            int lastRowNum = memberListTable.getLastRowNum();
-            for (int i = 1; i < lastRowNum; i++) {
-                HSSFRow row = memberListTable.getRow(i);
-                // 创建会员实体
-                MemberVo memberVo = new MemberVo();
-                // 1会员名字
-                memberVo.setName(row.getCell(0).getStringCellValue());
-                // 2电话号码
-                memberVo.setTelephone(row.getCell(1).getStringCellValue());
-                // 3会员折扣
-//                row.getCell(2).getNumericCellValue()
-
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        fileService.importMemberList(filePath);
     }
 
 }

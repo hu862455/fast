@@ -1,89 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hushuai.fast.dao.MemberLevelMapper">
-  <resultMap id="BaseResultMap" type="com.hushuai.fast.dto.MemberLevel">
-    <!--@mbg.generated-->
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="level_name" jdbcType="VARCHAR" property="levelName" />
-    <result column="count" jdbcType="DOUBLE" property="count" />
-    <result column="limit" jdbcType="DECIMAL" property="limit" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    <!--@mbg.generated-->
-    id, level_name, `count`, `limit`
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    <!--@mbg.generated-->
-    select 
-    <include refid="Base_Column_List" />
-    from member_level
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    <!--@mbg.generated-->
-    delete from member_level
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.hushuai.fast.dto.MemberLevel" useGeneratedKeys="true">
-    <!--@mbg.generated-->
-    insert into member_level (level_name, `count`, `limit`
-      )
-    values (#{levelName,jdbcType=VARCHAR}, #{count,jdbcType=DOUBLE}, #{limit,jdbcType=DECIMAL}
-      )
-  </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.hushuai.fast.dto.MemberLevel" useGeneratedKeys="true">
-    <!--@mbg.generated-->
-    insert into member_level
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="levelName != null and levelName != ''">
-        level_name,
-      </if>
-      <if test="count != null">
-        `count`,
-      </if>
-      <if test="limit != null">
-        `limit`,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="levelName != null and levelName != ''">
-        #{levelName,jdbcType=VARCHAR},
-      </if>
-      <if test="count != null">
-        #{count,jdbcType=DOUBLE},
-      </if>
-      <if test="limit != null">
-        #{limit,jdbcType=DECIMAL},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hushuai.fast.dto.MemberLevel">
-    <!--@mbg.generated-->
-    update member_level
-    <set>
-      <if test="levelName != null and levelName != ''">
-        level_name = #{levelName,jdbcType=VARCHAR},
-      </if>
-      <if test="count != null">
+    <resultMap id="BaseResultMap" type="com.hushuai.fast.dto.MemberLevel">
+        <!--@mbg.generated-->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="level_name" jdbcType="VARCHAR" property="levelName"/>
+        <result column="count" jdbcType="DOUBLE" property="count"/>
+        <result column="limit" jdbcType="DECIMAL" property="limit"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, level_name, `count`, `limit`
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from member_level
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--@mbg.generated-->
+        delete from member_level
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.hushuai.fast.dto.MemberLevel" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into member_level (level_name, `count`, `limit`
+        )
+        values (#{levelName,jdbcType=VARCHAR}, #{count,jdbcType=DOUBLE}, #{limit,jdbcType=DECIMAL}
+        )
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.hushuai.fast.dto.MemberLevel" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into member_level
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="levelName != null and levelName != ''">
+                level_name,
+            </if>
+            <if test="count != null">
+                `count`,
+            </if>
+            <if test="limit != null">
+                `limit`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="levelName != null and levelName != ''">
+                #{levelName,jdbcType=VARCHAR},
+            </if>
+            <if test="count != null">
+                #{count,jdbcType=DOUBLE},
+            </if>
+            <if test="limit != null">
+                #{limit,jdbcType=DECIMAL},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.hushuai.fast.dto.MemberLevel">
+        <!--@mbg.generated-->
+        update member_level
+        <set>
+            <if test="levelName != null and levelName != ''">
+                level_name = #{levelName,jdbcType=VARCHAR},
+            </if>
+            <if test="count != null">
+                `count` = #{count,jdbcType=DOUBLE},
+            </if>
+            <if test="limit != null">
+                `limit` = #{limit,jdbcType=DECIMAL},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.hushuai.fast.dto.MemberLevel">
+        <!--@mbg.generated-->
+        update member_level
+        set level_name = #{levelName,jdbcType=VARCHAR},
         `count` = #{count,jdbcType=DOUBLE},
-      </if>
-      <if test="limit != null">
-        `limit` = #{limit,jdbcType=DECIMAL},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.hushuai.fast.dto.MemberLevel">
-    <!--@mbg.generated-->
-    update member_level
-    set level_name = #{levelName,jdbcType=VARCHAR},
-      `count` = #{count,jdbcType=DOUBLE},
-      `limit` = #{limit,jdbcType=DECIMAL}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+        `limit` = #{limit,jdbcType=DECIMAL}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
 
-<!--auto generated by MybatisCodeHelper on 2019-07-22-->
-  <select id="selectByLevelName" resultMap="BaseResultMap">
+    <!--auto generated by MybatisCodeHelper on 2019-07-22-->
+    <select id="selectByLevelName" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from member_level
@@ -92,29 +92,34 @@
             and level_name like CONCAT('%',#{levelName,jdbcType=VARCHAR},'%')
         </if>
         <choose>
-          <when test="start != null and pageSize != null">
-            limit #{start,jdbcType=INTEGER} ,#{pageSize,jdbcType=INTEGER}
-          </when>
-          <otherwise>
-          </otherwise>
+            <when test="start != null and pageSize != null">
+                limit #{start,jdbcType=INTEGER} ,#{pageSize,jdbcType=INTEGER}
+            </when>
+            <otherwise>
+            </otherwise>
         </choose>
     </select>
 
-<!--auto generated by MybatisCodeHelper on 2019-07-22-->
-  <select id="countByLevelName" resultType="java.lang.Integer">
-    select count(1)
-    from member_level
-    where 1=1
-    <if test="levelName != null and levelName != ''">
-      and level_name=#{levelName,jdbcType=VARCHAR}
-    </if>
-  </select>
+    <!--auto generated by MybatisCodeHelper on 2019-07-22-->
+    <select id="countByLevelName" resultType="java.lang.Integer">
+        select count(1)
+        from member_level
+        where 1=1
+        <if test="levelName != null and levelName != ''">
+            and level_name=#{levelName,jdbcType=VARCHAR}
+        </if>
+    </select>
 
-<!--auto generated by MybatisCodeHelper on 2019-07-25-->
-  <select id="findAll" resultMap="BaseResultMap">
+    <!--auto generated by MybatisCodeHelper on 2019-07-25-->
+    <select id="findAll" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from member_level
     </select>
-
+    <select id="selectIdByLevelName" resultType="java.lang.Integer">
+        select id
+        from member_level
+        where level_name = #{levelName,jdbcType=VARCHAR}
+        limit 1
+    </select>
 </mapper>

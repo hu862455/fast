@@ -185,13 +185,15 @@ var memberListPage = function () {
             exportTypes: ['txt', 'excel', 'json'],
             buttonsAlign: "right",  //按钮位置
             exportOptions: {
+                ignoreColumn: [0,10],  //忽略某一列的索引
                 fileName: '会员信息表',  //文件名称设置
                 worksheetName: 'sheet1',  //表格工作区名称
                 tableName: '会员信息表'
             },
             showPaginationSwitch: false,
             pageNumber: 1,
-            pageSize: 10,
+            pageSize: 2,
+            pageList: [1, 10, 20, 1000],
             locale: 'zh-CN',
             cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
             striped: true, //是否显示行间隔色
@@ -199,21 +201,22 @@ var memberListPage = function () {
                 checkbox: true,
                 visible: true                  //是否显示复选框
             }, {
-                field: 'id',
-                title: 'id',
-                visible: false
-            }, {
                 field: 'number',
                 title: '序号',
                 width: 5,
                 align: 'center',
                 switchable: false,
+                visible: false,
                 formatter: function (value, row, index) {
                     //return index+1; //序号正序排序从1开始
                     var pageSize = $('#memberInfoTable').bootstrapTable('getOptions').pageSize;//通过表的#id 可以得到每页多少条
                     var pageNumber = $('#memberInfoTable').bootstrapTable('getOptions').pageNumber;//通过表的#id 可以得到当前第几页
                     return pageSize * (pageNumber - 1) + index + 1;    //返回每条的序号： 每页条数 * （当前页 - 1 ）+ 序号
                 }
+            }, {
+                field: 'id',
+                title: 'id',
+                visible: true
             }, {
                 field: 'name',
                 title: '会员名字'
@@ -256,7 +259,7 @@ var memberListPage = function () {
                 addFunctionAlty:addFunctionAlty,
                 events: operateMemberEvents
             }]
-        })
+        });
 
         $("#Member-search").click(function () {
             $("#memberInfoTable").bootstrapTable('destroy');
@@ -273,14 +276,15 @@ var memberListPage = function () {
                 exportTypes: ['txt', 'excel', 'json'],
                 buttonsAlign: "right",  //按钮位置
                 exportOptions: {
-                    ignoreColumn: [0, 1],  //忽略某一列的索引
+                    ignoreColumn: [0,10],  //忽略某一列的索引
                     fileName: '会员信息表',  //文件名称设置
                     worksheetName: 'sheet1',  //表格工作区名称
                     tableName: '会员信息表'
                 },
                 showPaginationSwitch: false,
                 pageNumber: 1,
-                pageSize: 10,
+                pageSize: 2,
+                pageList: [1, 10, 20, 1000],
                 locale: 'zh-CN',
                 cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
                 striped: true, //是否显示行间隔色

@@ -94,6 +94,14 @@ public class MemberService {
         member.setTotalAccount(member.getTotalAccount().add(memberVo.getRecharge()));
         return memberMapper.updateByPrimaryKeySelective(member);
     }
+
+	public int insertList(List<Member> list){
+		 return memberMapper.insertList(list);
+	}
+
+	public void truncateMemberTable(){
+        memberMapper.truncateMemberTable();
+    }
 }
 
 

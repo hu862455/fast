@@ -4,7 +4,7 @@ var memberImport = function () {
     function initPage() {
         $("#input-import").fileinput({
             language: 'zh', //设置语言
-            dropZoneTitle: '可以将图片拖放到这里 …支持多文件上传',
+            dropZoneTitle: '可以将文件拖放到这里' ,
             uploadUrl: contentPath + "file/upload", //上传的地址
             uploadExtraData: function (previewId, index) {   //该插件可以向您的服务器方法发送附加数据。这可以通过uploadExtraData在键值对中设置为关联数组对象来完成。所以如果你有设置uploadExtraData={id:'kv-1'}，在PHP中你可以读取这些数据$_POST['id']
                 var id = $('#id').val();

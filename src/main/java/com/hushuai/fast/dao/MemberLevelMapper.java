@@ -25,5 +25,6 @@ public interface MemberLevelMapper {
 
     List<MemberLevel> findAll();
 
+    Integer selectIdByLevelName(@Param("levelName")String levelName);
 
 }

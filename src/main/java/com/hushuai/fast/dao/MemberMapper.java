@@ -4,6 +4,7 @@ import com.hushuai.fast.dto.Member;
 import com.hushuai.fast.vo.MemberVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -24,4 +25,10 @@ public interface MemberMapper {
     List<MemberVo> selectMemberListByParms(@Param("memberVo")MemberVo memberVo, @Param("start")Integer start, @Param("pageSize")Integer pageSize );
 
     Integer countMemberListByParms(@Param("memberVo")MemberVo memberVo);
+
+    int insertList(@Param("list")List<Member> list);
+
+    @Update("truncate table member")
+    void truncateMemberTable();
+
 }

@@ -70,7 +70,9 @@ public class MemberLevelService{
 		 return memberLevelMapper.findAll();
 	}
 
-
+    public Integer memberLevelName2MemberLevelId(String memberLevelName){
+        return memberLevelMapper.selectIdByLevelName(memberLevelName);
+    }
 
 
 
