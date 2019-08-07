@@ -136,7 +136,7 @@ public class MemberService extends CommonService{
         // 填充内容
         for (int i = 0; i < memberList.size(); i++) {
             HSSFRow row = sheet.createRow(1 + i);
-            row.createCell(0).setCellValue(memberList.get(i).getId());
+            row.createCell(0).setCellValue(memberList.get(i).getId().toString());
             row.createCell(1).setCellValue(memberList.get(i).getName());
             row.createCell(2).setCellValue(memberList.get(i).getTelephone());
             row.createCell(3).setCellValue(memberList.get(i).getCount());

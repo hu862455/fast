@@ -24,7 +24,6 @@ import java.util.List;
  * @Description:
  */
 @Service
-@Transactional
 public class FileService extends CommonService{
 
     @Autowired
@@ -34,7 +33,7 @@ public class FileService extends CommonService{
     MemberService memberService;
 
     public void importMemberList(String filePath){
-        filePath = "D://test//"+"2019-08-06-55-51会员信息表.xls";
+//        filePath = "D://test//"+"2019-08-06-55-51会员信息表.xls";
 
         // 清除member表
         memberService.truncateMemberTable();
@@ -43,7 +42,7 @@ public class FileService extends CommonService{
             HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(filePath));
             HSSFSheet memberListTable = workbook.getSheet("Table");
             int lastRowNum = memberListTable.getLastRowNum();
-            for (int i = 1; i < lastRowNum; i++) {
+            for (int i = 1; i <= lastRowNum; i++) {
                 HSSFRow row = memberListTable.getRow(i);
                 // 创建会员实体
                 Member memberVo = new Member();

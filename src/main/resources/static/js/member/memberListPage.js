@@ -50,7 +50,7 @@ var memberListPage = function () {
 
                                 } else {
                                     swal("删除", "您的会员信息已被删除！", "success");
-                                    $("#memberLevelTable").memberInfoTable('refresh');
+                                    $("#memberLevelTable").bootstrapTable('refresh');
                                 }
                             }
                         });
